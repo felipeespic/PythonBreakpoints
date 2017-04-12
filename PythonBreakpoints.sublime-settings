@@ -1,6 +1,10 @@
 {
-  // preferred debugger (pdb, ipdb, pudb,..) - must support set_trace() call
-  "debugger": "pdb",
+  // The string inserted in breakpoint locations. You can use your preferred
+  // debugger (pdb, ipdb, pudb,..).
+  // The 'if' statement is to ease conditional breakpoints easier.
+  // Other examples:
+  // "if True: import ipdb; ipdb.set_trace(context=10)"
+  "breakpoint_string": "if True: import pdb; pdb.set_trace()",
 
   // "auto" (read from global settings), or a positive integer
   "tab_size": "auto",

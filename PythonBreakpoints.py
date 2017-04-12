@@ -46,8 +46,8 @@ if sys.version_info < (3,):
 # Constants #
 #############
 
-bp_regex = r"^[\t ]*import [\w.; ]+set_trace\(\)  # breakpoint ([a-f0-9]{8})([a-z]?) //"
-bp_re = re.compile(bp_regex, re.DOTALL)
+bp_regex = r"^[\t ].*# breakpoint ([a-f0-9]{8})([a-z]?) //"
+bp_re    = re.compile(bp_regex, re.DOTALL)
 
 EXPR_PRE = ['class', 'def', 'if', 'for', 'try', 'while', 'with']
 EXPR_PST = ['elif', 'else', 'except', 'finally']
@@ -86,9 +86,10 @@ class Breakpoint(object):
         """
         format breakpoint string
         """
-        debugger = settings.get('debugger', 'pdb')
-        return "{indent}import {dbg}; {dbg}.set_trace()  # breakpoint {uid}{mark} //\n".format(
-            indent=' ' * indent, dbg=debugger, uid=self.uid, mark='x' if self.in_block else '')
+        custom_string = settings.get('breakpoint_string', 'import pdb; pdb.set_trace()')
+        return "{indent}{breakpoint_string}  # breakpoint {uid}{mark} //\n".format(
+                                    indent=' ' * indent, breakpoint_string=custom_string,
+                                    uid=self.uid, mark='x' if self.in_block else '')
 
     def highlight(self, view, rg):
         """
